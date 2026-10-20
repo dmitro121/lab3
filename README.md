@@ -18,6 +18,12 @@
 Задание 1. Создание пользователя
 
 
+Команда:
+sudo useradd -m -s /bin/bash student
+grep student /etc/passwd
+ls -ld /home/student
+
+
 ![фото 1](https://github.com/user-attachments/assets/73a6c82a-8963-45eb-bc82-434937d9d18c)
 
 
@@ -26,6 +32,10 @@ shell /bin/bash
 
 
 Задание 2. Установĸа пароля
+
+
+Команда:
+sudo passwd student
 
 
 ![photo](https://github.com/user-attachments/assets/1c4efe8d-626e-44da-b702-9fda821a145c)
@@ -37,6 +47,13 @@ shell /bin/bash
 Задание 3. Файл от root и смена владельца
 
 
+Команда:
+echo "Тестовый файл" | sudo tee /home/student/test.txt
+ls -l /home/student/test.txt
+sudo chown student:student /home/student/test.txt
+ls -l /home/student/test.txt
+
+
 ![photo](https://github.com/user-attachments/assets/dbc008a1-5e7b-415d-9c8f-53508ff90050)
 
 
@@ -46,6 +63,11 @@ shell /bin/bash
 Задание 4. Права rw-rw-r– (664)
 
 
+Команда:
+sudo chmod 664 /home/student/test.txt
+ls -l /home/student/test.txt
+
+
 ![photo](https://github.com/user-attachments/assets/b536d544-47cf-42a9-9a4c-184ee97919fb)
 
 
@@ -53,6 +75,14 @@ shell /bin/bash
 
 
 Задание 5. Смена shell на zsh и обратно
+
+
+Команда:
+sudo apt install -y zsh
+sudo chsh -s /bin/zsh student
+grep student /etc/passwd
+sudo chsh -s /bin/bash student
+grep student /etc/passwd
 
 
 ![photo](https://github.com/user-attachments/assets/dbe59e33-f8f6-4253-9e72-d51ba2f1908b)
@@ -68,6 +98,12 @@ shell /bin/bash
 использовано имя backupsvc.
 
 
+Команда:
+sudo useradd -r -M -s /usr/sbin/nologin backupsvc
+grep backupsvc /etc/passwd
+sudo su - backupsvc
+
+
 ![photo](https://github.com/user-attachments/assets/4de51cb6-7240-4c41-b3dd-0576f2ac75da)
 
 
@@ -76,6 +112,24 @@ shell /bin/bash
 
 
 Задание 7. Настройĸа .bashrc для student
+
+
+Команда:
+sudo -u student tee -a /home/student/.bashrc > /dev/null << 'EOF'
+export PS1="\[\e[36m\][\t]\[\e[m\] \[\e[32m\]\u@\h\[\e[m\]:\[\e[33m\]\w\[\e[m\]\n\\$ "
+alias ll='ls -alF --color=auto'
+alias la='ls -A --color=auto'
+alias l='ls -CF --color=auto'
+alias ..='cd ..'
+alias ...='cd ../..'
+alias grep='grep --color=auto'
+alias update='sudo apt update && sudo apt upgrade'
+export HISTSIZE=10000
+export HISTFILESIZE=20000
+export HISTTIMEFORMAT="%d/%m/%y %T "
+export HISTCONTROL=ignoreboth:erasedups
+EOF
+sudo -u student bash -ic 'source ~/.bashrc; alias | head'
 
 
 ![photo](https://github.com/user-attachments/assets/35b3a771-502c-4cb2-9534-f72812ed0528)
@@ -88,6 +142,28 @@ shell /bin/bash
 Задание 8. Настройĸа ~/.vimrc
 
 
+Команда:
+sudo -u student tee /home/student/.vimrc > /dev/null << 'EOF'
+set number
+syntax on
+colorscheme desert
+set mouse=a
+set showmatch
+set autoindent
+set smartindent
+set tabstop=4
+set shiftwidth=4
+set expandtab
+set incsearch
+set hlsearch
+set ignorecase
+set smartcase
+set laststatus=2
+set encoding=utf-8
+EOF
+cat /home/student/.vimrc
+
+
 ![photo](https://github.com/user-attachments/assets/c41d8d72-91d4-4491-92ed-eed2a5abf19e)
 
 
@@ -96,6 +172,11 @@ shell /bin/bash
 
 
 Задание 9. Удаление пользователя backup
+
+
+Команда:
+sudo userdel backupsvc
+grep backupsvc /etc/passwd || echo "пользователь удален"
 
 
 ![photo](https://github.com/user-attachments/assets/e8f9a43c-15e4-4b4b-99c6-47453dd2fc35)
