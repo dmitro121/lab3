@@ -63,8 +63,7 @@ shell /bin/bash
 
 
 В Debian/Ubuntu пользователь backup уже существует (UID 34), поэтому
-использовано имя backupsvc . Если в вашей системе backup нет, подставьте это
-имя.
+использовано имя backupsvc.
 
 
 ![photo](https://github.com/user-attachments/assets/4de51cb6-7240-4c41-b3dd-0576f2ac75da)
